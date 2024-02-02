@@ -2,6 +2,8 @@ import os
 import sys
 
 import requests
+
+from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QLineEdit
 
@@ -76,8 +78,6 @@ class Example(QWidget):
 
         self.image.show()
 
-        print("SHOW")
-
     def closeEvent(self, event):
         os.remove(self.map_file)
 
@@ -95,6 +95,15 @@ class Example(QWidget):
         }
 
         self.initUI()
+
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_PageDown:
+            self.line_z.setText(str(min([20, max([0, int(self.line_z.text()) - 1])])))
+            self.update_data()
+
+        if event.key() == Qt.Key_PageUp:
+            self.line_z.setText(str(min([20, max([0, int(self.line_z.text()) + 1])])))
+            self.update_data()
 
 
 app = QApplication(sys.argv)
